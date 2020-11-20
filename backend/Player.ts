@@ -5,7 +5,7 @@ export enum PlayerType {
 
 export class Rider {
 
-    constructor(properties){
+    constructor(properties:any){
         this.Name = properties.Name;
         this.Age = properties.Age;
         this.Stamina = properties.Stamina;

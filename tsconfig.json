@@ -6,8 +6,9 @@
     "strict": true,
     "sourceMap": true,
     "strictNullChecks": false,
-    "esModuleInterop": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true 
   },
   "exclude": [
     "./frontend",

@@ -94,7 +94,7 @@ export class RaceRoom extends Room<GameState> {
             
         }else {
             const playerType = PlayerType.MASTER;
-            this.spectatorMap.set(client.id, new Player(client.id, true, playerType, new Rider()));
+            this.spectatorMap.set(client.id, new Player(client.id, true, playerType, null));
         }
     }
 
