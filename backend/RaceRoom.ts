@@ -1,13 +1,20 @@
 import {Client, Delayed, Room, updateLobby } from "colyseus";
 import {GameState} from "../state/GameState";
-import {Player, PlayerType} from "./Player";
+import {Player, PlayerType, Rider} from "./Player";
 import {ReadyState} from "../messages/readystate";
+
+import * as riders from './riders.json';
+
+
+const NUM_TURNS = 10;
+const INIT_TURN_TIME = 60; //seconds
 
 export class RaceRoom extends Room<GameState> {
 
     private playerMap: Map<string, Player>;
+    private spectatorMap: Map<string, Player>;
 
-    private gameLoop!: Delayed;
+    private gameLoop: Delayed;
 
     constructor() {
         super();
@@ -15,8 +22,18 @@ export class RaceRoom extends Room<GameState> {
     }
 
     private loopFunction = () => {
-        this.state.turn += 1;
-        console.log(this.state);        
+        this.state.turn_time--;
+        if(this.state.turn_time == 0){
+            if(this.state.sector < NUM_TURNS){
+                this.state.sector += 1;
+                console.log(this.state);       
+                //TODO: Do the logic
+            } else {
+                //TODO: Finish race
+                this.stopGameLoop();
+            }
+            this.state.turn_time = INIT_TURN_TIME;
+        }
     }
 
     private roomHasMaster(): boolean {
@@ -35,6 +52,7 @@ export class RaceRoom extends Room<GameState> {
 
     private stopGameLoop() {
         this.gameLoop.clear();
+        this.setState(new GameState(INIT_TURN_TIME));
     }
 
     private restartGameLoop() {
@@ -42,21 +60,9 @@ export class RaceRoom extends Room<GameState> {
         this.startGameLoop();
     }
 
-    // private allPlayersReady(): boolean {
-    //     for (const player of this.playerMap.values()) {
-    //         if (!player.isReady) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-
     onCreate(options: any) {
-        this.setState(new GameState());
+        this.setState(new GameState(INIT_TURN_TIME));
 
-        this.onMessage("move", (client, message: Movement) => {
-            
-        });
         this.onMessage("ready", (client, message: ReadyState) => {
             if (this.playerMap.has(client.id)) {
                 this.playerMap.get(client.id).isReady = message.isReady;
@@ -71,17 +77,24 @@ export class RaceRoom extends Room<GameState> {
     }
 
     onJoin(client: Client, options: any) {
-        if (!this.playerMap.size) {
-            const playerType = Math.random() >= 0.5 ? PlayerType.MASTER : PlayerType.PLAYER;
-            this.playerMap.set(client.id, new Player(client.id, true, playerType));
-        } else {
-            if (this.roomHasMaster()) {
-                this.playerMap.set(client.id, new Player(client.id, true, PlayerType.MASTER));
-                // TODO: Let master start the race
-                this.state.running = true;
+        if(this.state.sector == 0){
+            let rider = new Rider(riders[this.playerMap.size])
+            if (!this.playerMap.size) {
+                const playerType = PlayerType.MASTER;
+                this.playerMap.set(client.id, new Player(client.id, true, playerType, rider));
             } else {
-                this.playerMap.set(client.id, new Player(client.id, true, PlayerType.PLAYER));
+                if (this.roomHasMaster()) {
+                    this.playerMap.set(client.id, new Player(client.id, true, PlayerType.MASTER, rider));
+                    // TODO: Let master start the race
+                    this.state.running = true;
+                } else {
+                    this.playerMap.set(client.id, new Player(client.id, true, PlayerType.PLAYER, rider));
+                }
             }
+            
+        }else {
+            const playerType = PlayerType.MASTER;
+            this.spectatorMap.set(client.id, new Player(client.id, true, playerType, new Rider()));
         }
     }
 

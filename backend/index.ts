@@ -10,7 +10,7 @@ import {monitor} from "@colyseus/monitor";
 import {RaceRoom} from "./RaceRoom";
 import {join} from "path";
 
-const PORT = Number(process.env.PORT || 25671);
+const PORT = Number(process.env.PORT || 25670);
 const app = express()
 
 const staticPath = join(__dirname, '../frontend/cff-live/dist/cff-live');
@@ -18,11 +18,6 @@ const staticPath = join(__dirname, '../frontend/cff-live/dist/cff-live');
 console.log(`Using static path '${staticPath}'`);
 app.set('port', PORT);
 app.use('/', express.static(staticPath));
-
-// Routing
-// app.get('/', function(request, response) {
-//     response.sendFile(path.join(staticPath, 'index.html'));
-//   });
 
 app.use(cors());
 app.use(express.json())
@@ -36,19 +31,13 @@ const gameServer = new Server({
 // Define "lobby" room
 gameServer.define("lobby", LobbyRoom);
 
+gameServer.define('races', RaceRoom)
+        .filterBy(['raceId'])
+        .enableRealtimeListing();
 
 
 // register colyseus monitor AFTER registering your room handlers
 app.use("/colyseus", monitor());
-
-app.put('/rooms/:room', function(req,res){
-    // register our RaceRoom
-    // TODO: Do this handling the "new room request"
-    var room  = req.params.room;
-    gameServer.define(room, RaceRoom)
-        .enableRealtimeListing();
-    res.status(200).send({});
-});
 
 gameServer.listen(PORT);
 console.log(`Listening on ws://localhost:${PORT}`)
