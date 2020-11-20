@@ -11,4 +11,5 @@ A multiplayer game implementation using Colyseus
 ## Dev
 
 Run npm run dev
-move to frontend/cff-live --> Run  ng serve
+
+cd  to frontend/cff-live --> Run  ng serve
