@@ -12,7 +12,7 @@
     "clean": "rimraf ./dist ./app",
     "start-old": "concurrently --kill-others-on-fail --handle-input \"npm run start:backend\" \"npm run start:frontend\"",
     "bundle": "npm run clean && npm run build:backend && npm run build:frontend && ncp dist/ app/public",
-    "start" : "nodemon --watch backend -e ts --exec \"ts-node backend/index.ts\""
+    "start" : "npm run clean && npm run build:backend && ncp frontend/cff-live/dist/cff-live app/public && node app/backend/index.js"
   },
   "author": "Adrian Luna",
   "bugs": {

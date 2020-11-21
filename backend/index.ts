@@ -13,7 +13,7 @@ import {join} from "path";
 const PORT = Number(process.env.PORT || 25670);
 const app = express()
 
-const staticPath = join(__dirname, '../frontend/cff-live/dist/cff-live');
+const staticPath = join(__dirname, '../public');
 //app.use(express.static(process.cwd()+"/my-app/dist/angular-nodejs-example/"));
 console.log(`Using static path '${staticPath}'`);
 app.set('port', PORT);
