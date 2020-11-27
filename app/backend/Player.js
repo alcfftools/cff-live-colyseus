@@ -26,11 +26,13 @@ class Rider {
 }
 exports.Rider = Rider;
 class Player {
-    constructor(id, _ready, _type, rider) {
+    constructor(id, _ready, _type, rider, strategy) {
         this.id = id;
         this._ready = _ready;
         this._type = _type;
         this.rider = rider;
+        this.strategy = strategy;
+        this.strategy = 60;
     }
     get isReady() {
         return this._ready;
@@ -43,6 +45,18 @@ class Player {
     }
     isPlayer() {
         return this._type === PlayerType.PLAYER;
+    }
+    setStrategy(strategy) {
+        this.strategy = strategy;
+    }
+    getStrategy() {
+        return this.strategy;
+    }
+    setRider(rider) {
+        this.rider = rider;
+    }
+    getRider() {
+        return this.rider;
     }
 }
 exports.Player = Player;

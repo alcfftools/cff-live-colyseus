@@ -19,6 +19,8 @@ console.log(`Using static path '${staticPath}'`);
 app.set('port', PORT);
 app.use('/', express.static(staticPath));
 
+app.get('/config')
+
 app.use(cors());
 app.use(express.json())
 
@@ -32,7 +34,6 @@ const gameServer = new Server({
 gameServer.define("lobby", LobbyRoom);
 
 gameServer.define('races', RaceRoom)
-        .filterBy(['raceId'])
         .enableRealtimeListing();
 
 

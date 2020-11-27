@@ -40,7 +40,14 @@ export class Rider {
 }
 
 export class Player {
-    constructor(public readonly id: string, private _ready: boolean, private readonly _type: PlayerType, private readonly rider: Rider) {
+    constructor(
+        public readonly id: string, 
+        private _ready: boolean, 
+        private readonly _type: PlayerType, 
+        private rider: Rider, 
+        private strategy: number
+    ) {
+        this.strategy = 60;
     }
 
     public get isReady(): boolean {
@@ -55,4 +62,22 @@ export class Player {
     public isPlayer(): boolean {
         return this._type === PlayerType.PLAYER;
     }
-}
+
+    public setStrategy(strategy:number){
+        this.strategy = strategy;
+    }
+
+    public getStrategy(): number{
+        return this.strategy;
+    }
+
+    public setRider(rider:Rider){
+        this.rider = rider;
+    }
+
+    public getRider(): Rider{
+        return this.rider;
+    }
+
+
+ }

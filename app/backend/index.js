@@ -19,6 +19,7 @@ const staticPath = path_1.join(__dirname, '../public');
 console.log(`Using static path '${staticPath}'`);
 app.set('port', PORT);
 app.use('/', express_1.default.static(staticPath));
+app.get('/config');
 app.use(cors_1.default());
 app.use(express_1.default.json());
 var server = http.Server(app);
@@ -28,7 +29,6 @@ const gameServer = new colyseus_1.Server({
 // Define "lobby" room
 gameServer.define("lobby", colyseus_1.LobbyRoom);
 gameServer.define('races', RaceRoom_1.RaceRoom)
-    .filterBy(['raceId'])
     .enableRealtimeListing();
 // register colyseus monitor AFTER registering your room handlers
 app.use("/colyseus", monitor_1.monitor());
