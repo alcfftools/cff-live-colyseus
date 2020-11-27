@@ -74,13 +74,13 @@ export class RaceRoom extends Room<GameState> {
     }
     
     private startGameLoop() {
+        this.setState(new GameState(INIT_TURN_TIME));
         const loopInterval = 1000; // Each second
         this.gameLoop = this.clock.setInterval(this.loopFunction, loopInterval);
     }
 
     private stopGameLoop() {
         this.gameLoop.clear();
-        this.setState(new GameState(INIT_TURN_TIME));
     }
 
     private restartGameLoop() {
@@ -89,6 +89,7 @@ export class RaceRoom extends Room<GameState> {
     }
 
     private computeSectorValues(type: TERRAIN_TYPE){
+        this.sector_class = new Classification();
         this.playerMap.forEach( 
             (player) => {
                 let effort = this.playerMap.get(player.id).getStrategy();

@@ -78,18 +78,19 @@ class RaceRoom extends colyseus_1.Room {
         return false;
     }
     startGameLoop() {
+        this.setState(new GameState_1.GameState(INIT_TURN_TIME));
         const loopInterval = 1000; // Each second
         this.gameLoop = this.clock.setInterval(this.loopFunction, loopInterval);
     }
     stopGameLoop() {
         this.gameLoop.clear();
-        this.setState(new GameState_1.GameState(INIT_TURN_TIME));
     }
     restartGameLoop() {
         this.stopGameLoop();
         this.startGameLoop();
     }
     computeSectorValues(type) {
+        this.sector_class = new Classification_1.Classification();
         this.playerMap.forEach((player) => {
             let effort = this.playerMap.get(player.id).getStrategy();
             let rider = player.getRider();
