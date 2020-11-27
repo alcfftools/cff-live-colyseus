@@ -8,7 +8,7 @@
     "dev": "nodemon --watch backend -e ts --exec \"ts-node backend/index.ts\"",
     "build:backend": "tsc -p tsconfig.json",
     "start:frontend": "parcel frontend/index.html",
-    "build:frontend": "npm run --prefix frontend/cff-live",
+    "build:frontend": "npm run build --prefix frontend/cff-live",
     "clean": "rimraf ./dist ./app",
     "start-old": "concurrently --kill-others-on-fail --handle-input \"npm run start:backend\" \"npm run start:frontend\"",
     "bundle": "npm run clean && npm run build:backend && npm run build:frontend && ncp dist/ app/public",
