@@ -705,7 +705,7 @@ class LobbyServiceService {
         this._URI = 'cff-live.herokuapp.com/'; //'localhost:25670';
         this.allRooms$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"]([]);
         this.allRooms = [];
-        this.client = new colyseus_js__WEBPACK_IMPORTED_MODULE_1__["Client"]('ws://' + this._URI);
+        this.client = new colyseus_js__WEBPACK_IMPORTED_MODULE_1__["Client"]('wss://' + this._URI);
         this.getRooms();
     }
     createRoom(playerName) {
