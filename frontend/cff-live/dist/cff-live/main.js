@@ -702,7 +702,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class LobbyServiceService {
     constructor() {
-        this._URI = 'https://cff-live.herokuapp.com/'; //'localhost:25670';
+        this._URI = 'cff-live.herokuapp.com/'; //'localhost:25670';
         this.allRooms$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"]([]);
         this.allRooms = [];
         this.client = new colyseus_js__WEBPACK_IMPORTED_MODULE_1__["Client"]('ws://' + this._URI);
