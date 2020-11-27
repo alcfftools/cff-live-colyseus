@@ -14,13 +14,13 @@ const RaceRoom_1 = require("./RaceRoom");
 const path_1 = require("path");
 const PORT = Number(process.env.PORT || 25670);
 const app = express_1.default();
+app.use(cors_1.default());
 const staticPath = path_1.join(__dirname, '../public');
 //app.use(express.static(process.cwd()+"/my-app/dist/angular-nodejs-example/"));
 console.log(`Using static path '${staticPath}'`);
 app.set('port', PORT);
 app.use('/', express_1.default.static(staticPath));
 app.get('/config');
-app.use(cors_1.default());
 app.use(express_1.default.json());
 var server = http.Server(app);
 const gameServer = new colyseus_1.Server({

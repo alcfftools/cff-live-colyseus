@@ -12,6 +12,7 @@ import {join} from "path";
 
 const PORT = Number(process.env.PORT || 25670);
 const app = express()
+app.use(cors());
 
 const staticPath = join(__dirname, '../public');
 //app.use(express.static(process.cwd()+"/my-app/dist/angular-nodejs-example/"));
@@ -21,7 +22,7 @@ app.use('/', express.static(staticPath));
 
 app.get('/config')
 
-app.use(cors());
+
 app.use(express.json())
 
 
